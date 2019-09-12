@@ -1,16 +1,20 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View } from 'react-native';
+import { getHomeList } from '../service/home';
 
 class Home extends React.Component {
+
+  componentDidMount () {
+    getHomeList().then((res) => {
+      console.warn(res)
+    })
+  }
+
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Home Screen</Text>
-          <Button
-            title="Go to Details"
-            onPress={() => this.props.navigation.navigate('Detail')}
-          />
-       </View>
+        
+      </View>
     );
   }
 }

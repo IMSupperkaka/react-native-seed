@@ -19,12 +19,19 @@ const AppNavigator = createMaterialTopTabNavigator({
     navigationOptions: ({ navigation }) => ({
       title: '频道'
     })
+  },
+  Find: {
+    screen: Detail,
+    navigationOptions: ({ navigation }) => ({
+      title: '我的'
+    })
   }
 }, {
   initialRouteName: 'Home',
   tabBarComponent: props => (
     <TopTabBar {...props}/>
-  )
+  ),
+  swipeEnabled: false,
 });
 
 const AppContainer = createAppContainer(AppNavigator);

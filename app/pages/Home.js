@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, FlatList, SectionList } from 'react-native';
+import { View, StyleSheet, Text, Image, FlatList, TouchableWithoutFeedback } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 import { getHomeList } from '../service/home';
@@ -21,6 +21,13 @@ class Home extends React.Component {
 
 	componentDidMount() {
 		this.getData()
+	}
+
+	goDetail = (item) => {
+		this.props.navigation.navigate('ActDetail', {
+			postid: item.postid,
+			image: item.image
+		})
 	}
 
 	getData = () => {
@@ -57,7 +64,20 @@ class Home extends React.Component {
 								height: 200
 							}}
 						>
-							<Swiper style={styles.wrapper} loop autoplay key={this.state.data.banner.list.length}>
+							<Swiper
+								dot={
+									<View style={{backgroundColor:'rgba(255, 255, 255, .2)', width: 15, height: 2.5, marginLeft: 5, marginRight: 5}} />
+								}
+								activeDot={
+									<View style={{backgroundColor: 'rgba(255, 255, 255, .8)', width: 15, height: 2.5, marginLeft: 5, marginRight: 5}} />
+								}
+								paginationStyle={{
+									bottom: 10
+								}}
+								style={styles.wrapper}
+								loop
+								autoplay
+								key={this.state.data.banner.list.length}>
 								{
 									this.state.data.banner.list.map((banner) => {
 										return (
@@ -75,15 +95,17 @@ class Home extends React.Component {
 						{
 							this.state.data.today.list.map((item) => {
 								return (
-									<View key={item.postid} style={styles.todayItem}>
-										<Image source={{uri: item.image}} style={styles.todayItemImg}/>
-										<View style={styles.todayTitleWrap}>
-											<Text style={styles.todayTinyTitle}>
-												{item.cates[0].catename} / { formatDuration(item.duration) }
-											</Text>
-											<Text style={styles.todayTitle}>{ item.title }</Text>
+									<TouchableWithoutFeedback onPress={this.goDetail.bind(this, item)}>
+										<View key={item.postid} style={styles.todayItem}>
+											<Image source={{uri: item.image}} style={styles.todayItemImg}/>
+											<View style={styles.todayTitleWrap}>
+												<Text style={styles.todayTinyTitle}>
+													{item.cates[0].catename} / { formatDuration(item.duration) }
+												</Text>
+												<Text style={styles.todayTitle}>{ item.title }</Text>
+											</View>
 										</View>
-									</View>
+									</TouchableWithoutFeedback>
 								)
 							})
 						}

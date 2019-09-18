@@ -1,8 +1,8 @@
 //
 //  main.m
-//  RN-seed
+//  VMovier
 //
-//  Created by carefree on 2019/9/11.
+//  Created by carefree on 2019/9/18.
 //  Copyright © 2019 qingshan. All rights reserved.
 //
 

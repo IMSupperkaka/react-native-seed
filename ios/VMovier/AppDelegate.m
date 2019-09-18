@@ -1,14 +1,14 @@
 //
 //  AppDelegate.m
-//  RN-seed
+//  VMovier
 //
-//  Created by carefree on 2019/9/11.
+//  Created by carefree on 2019/9/18.
 //  Copyright © 2019 qingshan. All rights reserved.
 //
 
 #import "AppDelegate.h"
-#import "HomeController.h"
-
+#import <React/RCTRootView.h>
+#import <React/RCTDevLoadingView.h>
 
 @interface AppDelegate ()
 
@@ -18,11 +18,22 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    HomeController *home = [[HomeController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:home];
+    
+    NSURL *bundleUrl = [NSURL URLWithString:@"http://192.168.2.51:8081/index.bundle?platform=ios"];
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:bundleUrl moduleName:@"reactNativeSeed" initialProperties:nil launchOptions:nil];
+    
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.rootViewController = nav;
+    UIViewController *root = [[UIViewController alloc] init];
+    root.view = rootView;
+    self.window.rootViewController = root;
     [self.window makeKeyAndVisible];
+    
+    //避免白屏闪现，保持启动屏显示
+    UIView *launchScreenView = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil].instantiateInitialViewController.view;
+    launchScreenView.frame = self.window.bounds;
+    rootView.loadingView = launchScreenView;
+    //关闭绿色log提示
+    [RCTDevLoadingView setEnabled:NO];
     
     return YES;
 }
